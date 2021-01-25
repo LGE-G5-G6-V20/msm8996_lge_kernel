@@ -29,6 +29,8 @@
 #include <drm/drmP.h>
 #include <drm/drm_atomic.h>
 #include <drm/drm_plane_helper.h>
+#include <linux/pm_qos.h>
+
 
 /**
  * drm_atomic_state_default_release -
@@ -1477,7 +1479,7 @@ void drm_atomic_clean_old_fb(struct drm_device *dev,
 }
 EXPORT_SYMBOL(drm_atomic_clean_old_fb);
 
-int drm_mode_atomic_ioctl(struct drm_device *dev,
+static int __drm_mode_atomic_ioctl(struct drm_device *dev,
 			  void *data, struct drm_file *file_priv)
 {
 	struct drm_mode_atomic *arg = data;
@@ -1651,6 +1653,28 @@ out:
 
 	drm_modeset_drop_locks(&ctx);
 	drm_modeset_acquire_fini(&ctx);
+
+	return ret;
+}
+
+int drm_mode_atomic_ioctl(struct drm_device *dev, void *data,
+			  struct drm_file *file_priv)
+{
+	/*
+	 * Optimistically assume the current task won't migrate to another CPU
+	 * and restrict the current CPU to shallow idle states so that it won't
+	 * take too long to finish running the ioctl whenever the ioctl runs a
+	 * command that sleeps, such as for an "atomic" commit.
+	 */
+	struct pm_qos_request req = {
+		.type = PM_QOS_REQ_AFFINE_CORES,
+		.cpus_affine = ATOMIC_INIT(BIT(raw_smp_processor_id()))
+	};
+	int ret;
+
+	pm_qos_add_request(&req, PM_QOS_CPU_DMA_LATENCY, 100);
+	ret = __drm_mode_atomic_ioctl(dev, data, file_priv);
+	pm_qos_remove_request(&req);
 
 	return ret;
 }
