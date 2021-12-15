@@ -31,6 +31,10 @@
 #include <soc/qcom/smem.h>
 #endif
 
+#ifdef CONFIG_EXTCON
+#define PD_MAX_PDO_NUM 7
+#endif
+
 enum DP_HPD_STATUS {
 	STATE_LINK_TRAINING = 0,
 	STATE_HDMI_HPD,
