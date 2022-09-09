@@ -142,5 +142,9 @@ CONFIG_NFC_NQ=n
 CONFIG_CNSS=n
 CONFIG_USELIB=n
 
+# Disable legacy camera (We're using MSMB_CAMERA in 4.4)
+CONFIG_MSM_CAMERA=n
+CONFIG_MSM_CAMERA_DEBUG=n
+
 # mk2000 has override priority
 include mk2k_config
