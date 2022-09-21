@@ -507,9 +507,6 @@ static ssize_t up_rate_limit_us_store(struct gov_attr_set *attr_set,
 	struct sugov_policy *sg_policy;
 	unsigned int rate_limit_us;
 
-	/* Don't let userspace change this */
-	return count;
-
 	if (kstrtouint(buf, 10, &rate_limit_us))
 		return -EINVAL;
 
@@ -529,9 +526,6 @@ static ssize_t down_rate_limit_us_store(struct gov_attr_set *attr_set,
 	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
 	struct sugov_policy *sg_policy;
 	unsigned int rate_limit_us;
-
-	/* Don't let userspace change this */
-	return count;
 
 	if (kstrtouint(buf, 10, &rate_limit_us))
 		return -EINVAL;
