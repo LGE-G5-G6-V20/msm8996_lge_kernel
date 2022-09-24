@@ -83,8 +83,8 @@ VER=$(cat $RDIR/$VFIL)
 # ------------------------- BUILD CONFIG OPTIONS -------------------------
 #
 # "user"@"host"
-KBUSER=stendro
-KBHOST=github
+#KBUSER=stendro
+#KBHOST=github
 
 # ccache: yes or no
 USE_CCACHE=no
@@ -95,9 +95,9 @@ THREADS=$(grep -c "processor" /proc/cpuinfo)
 # directory containing cross-compiler
 # a newer toolchain (gcc8+) is recommended due to changes made
 # to the kernel.
-GCC_COMP=$HOME/mk2000/toolchain/stendro/aarch64-elf/bin/aarch64-elf-
+GCC_COMP=$HOME/toolchains/aarch64-elf/bin/aarch64-elf-
 # directory containing 32bit cross-compiler for CONFIG_COMPAT_VDSO
-GCC_COMP_32=$HOME/mk2000/toolchain/stendro/arm-eabi/bin/arm-eabi-
+GCC_COMP_32=$HOME/toolchains/arm-eabi/bin/arm-eabi-
 
 # -------------------------------- END -----------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,8 +131,8 @@ ABORT() {
 }
 
 export ARCH=arm64
-export KBUILD_BUILD_USER=$KBUSER
-export KBUILD_BUILD_HOST=$KBHOST
+#export KBUILD_BUILD_USER=$KBUSER
+#export KBUILD_BUILD_HOST=$KBHOST
 export LOCALVERSION="-${VER}"
 if [ "$USE_CCACHE" = "yes" ]; then
   export CROSS_COMPILE="ccache $GCC_COMP"
