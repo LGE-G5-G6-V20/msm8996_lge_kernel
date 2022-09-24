@@ -147,5 +147,8 @@ CONFIG_USELIB=n
 CONFIG_MSM_CAMERA=n
 CONFIG_MSM_CAMERA_DEBUG=n
 
+# Work around some camera issues specific to LGE on 4.4
+CONFIG_LGE_ISP_CMD_WORKAROUND_FOR_44=y
+
 # mk2000 has override priority
 include mk2k_config
