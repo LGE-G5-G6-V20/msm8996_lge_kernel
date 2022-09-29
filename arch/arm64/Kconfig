@@ -1296,6 +1296,7 @@ config BUILD_ARM64_DT_OVERLAY
 	depends on OF
 	help
 	  This option enables support for DT overlay compilation.
+
 endmenu
 
 menu "Userspace binary formats"
@@ -1345,6 +1346,29 @@ config ARCH_HIBERNATION_HEADER
 
 config ARCH_SUSPEND_POSSIBLE
 	def_bool y
+
+config SWAN2K_UNDERVOLTS_UNSAFE
+	bool "Enable unsafe undervolts for LGE_8996"
+	default n
+	help
+		Select this option to enable unsafe undervolts for
+		the LGE msm8996 and msm8996pro platforms. The voltages
+		used by selecting this config will provide higher power
+		efficiency compared to UNDERVOLTS_SAFE, but at the cost of
+		possible crashes if your device doesn't undervolt particularly 
+		well. Selecting neither of the undervolt options makes the 
+		kernel get the default voltage tables from qcom.
+
+config SWAN2K_UNDERVOLTS_SAFE
+	bool "Enable safe undervolts for LGE_8996"
+	default n
+	help
+		Select this option to enable safe undervolts for
+		the LGE msm8996 and msm8996pro platforms. While not 
+		as power efficient as the UNSAFE undervolts, the 
+		voltage tables this option selects are safe enough
+		to guarantee the kernel will work well on any of the 
+		LGE_8996 phones.
 
 endmenu
 
